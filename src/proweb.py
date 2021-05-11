@@ -191,7 +191,14 @@ class Main(Commands.Commands):
 
 		for name, path in json["libs"].items():
 			Tools.rm(C.FRONT / "IN" / "Lib" / name);
-			Tools.cp(C.PROJ / path, C.FRONT / "IN" / "Lib" / name);
+			
+			if (path.startswith("https://github.com/")):
+				Tools.downloadGithub(path, C.FRONT / "IN" / "Lib" / name);
+			else: 
+				Tools.cp(C.PROJ / path, C.FRONT / "IN" / "Lib" / name);
+
+	def cmd_download(self, *args):
+		Tools.downloadGithub("https://github.com/Programs-R-Open/PRO-Web", "./main.zip");
 
 
 def Run():

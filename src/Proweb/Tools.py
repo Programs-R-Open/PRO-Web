@@ -1,6 +1,10 @@
 from send2trash import send2trash
+import urllib3
+import zipfile
+import urllib.request
 import shutil
 import json
+import glob
 import os
 
 def mkdir(path):
@@ -114,3 +118,40 @@ def exists(path):
 		return os.path.exists(path);
 	except Exception as e:
 		print("Error exist: " + str(e));
+
+
+def download(url, path, token=""):
+	headers = {};
+
+	if (token != ""):
+		headers['Authorization'] = "token " + token;
+
+	http = urllib3.PoolManager()
+	r = http.request('GET', url, preload_content=False, headers=headers)
+	with open(path, 'wb') as out:
+		while True:
+			data = r.read(64)
+			if not data:
+				break
+			out.write(data)
+			r.release_conn()
+
+def listDir(path):
+	return os.listdir(path)
+
+
+def downloadGithub(url, path):
+	parts = os.path.split(url);
+	print(parts)
+	repo = parts[-1];
+	org = os.path.split(parts[-2])[-1];
+	newUrl = f'https://api.github.com/repos/{org}/{repo}/zipball/main';
+	zip_path, _ = urllib.request.urlretrieve(newUrl)
+	with zipfile.ZipFile(zip_path, "r") as f:
+		f.extractall(path)
+	folder = listDir(path)[0];
+
+	for file in glob.glob(str(path / folder / "*")):
+		print(file)
+		shutil.move(file, path)
+	rm(path/folder);

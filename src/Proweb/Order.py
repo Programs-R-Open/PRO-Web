@@ -1,8 +1,7 @@
 import Proweb.Output as Output
-
-
 from pathlib import Path
 from itertools import islice
+
 
 space =  '    '
 branch = '│   '
@@ -25,13 +24,13 @@ def tree(dir_path: Path, level: int=-1, limit_to_directories: bool=False, length
 		for pointer, path in zip(pointers, contents):
 			if path.is_dir():
 				print(prefix + pointer, end = " ")
-				yield (0x02,path.name)
+				yield (0x02, path.name)
 				directories += 1
 				extension = branch if pointer == tee else space 
 				yield from inner(path, prefix=prefix+extension, level=level-1)
 			elif not limit_to_directories:
 				print(prefix + pointer, end = " ")
-				yield (0x0F , path.name)
+				yield (0x0F, path.name)
 				files += 1
 	print(dir_path.name)
 	iterator = inner(dir_path, level=level)
