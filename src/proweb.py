@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import Proweb.Commands.Initialization as Initialization
 import Proweb.Commands.Commands as Commands
 import Proweb.Commands.Elements as Elements
@@ -193,6 +195,7 @@ class Main(Commands.Commands):
 			Tools.rm(C.FRONT / "IN" / "Lib" / name);
 			
 			if (path.startswith("https://github.com/")):
+				print("name: " + str(name));
 				Tools.downloadGithub(path, C.FRONT / "IN" / "Lib" / name);
 			else: 
 				Tools.cp(C.PROJ / path, C.FRONT / "IN" / "Lib" / name);
