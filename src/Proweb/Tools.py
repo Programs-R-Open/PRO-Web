@@ -149,7 +149,7 @@ def downloadGithub(url, path):
 	try:
 		zip_path, _ = urllib.request.urlretrieve(newUrl)
 	except Exception as e:
-		print(e):
+		print(e)
 	with zipfile.ZipFile(zip_path, "r") as f:
 		f.extractall(path)
 	folder = listDir(path)[0];
