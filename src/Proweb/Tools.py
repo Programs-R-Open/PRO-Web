@@ -146,7 +146,10 @@ def downloadGithub(url, path):
 	repo = parts[-1];
 	org = os.path.split(parts[-2])[-1];
 	newUrl = f'https://api.github.com/repos/{org}/{repo}/zipball/main';
-	zip_path, _ = urllib.request.urlretrieve(newUrl)
+	try:
+		zip_path, _ = urllib.request.urlretrieve(newUrl)
+	except Exception as e:
+		print(e):
 	with zipfile.ZipFile(zip_path, "r") as f:
 		f.extractall(path)
 	folder = listDir(path)[0];
