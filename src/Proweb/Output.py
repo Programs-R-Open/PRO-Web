@@ -41,9 +41,9 @@ elif os.name == "posix":
 
 
 
-def set_color(color, handle=std_out_handle):
+def set_color(color):
 	if os.name == "nt":
-		bool = ctypes.windll.kernel32.SetConsoleTextAttribute(handle, color)
+		bool = ctypes.windll.kernel32.SetConsoleTextAttribute(std_out_handle, color)
 	elif os.name == "posix":
 		print(color);
 	return bool;
